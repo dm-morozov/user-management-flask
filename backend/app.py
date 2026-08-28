@@ -5,7 +5,6 @@ from pathlib import Path
 from flask import Flask, Response, jsonify
 
 from .database import Database
-from .models import UserData
 from .user_repository import UserRepository
 
 BACKEND_DIR = Path(__file__).resolve().parent
