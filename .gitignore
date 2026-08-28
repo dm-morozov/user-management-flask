@@ -78,3 +78,7 @@ desktop.ini
 *.temp
 *.swp
 *~
+
+# SQLite runtime data
+backend/instance/*
+!backend/instance/.gitkeep
