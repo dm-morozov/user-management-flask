@@ -19,19 +19,6 @@ user_repository = UserRepository(database)
 
 app = Flask(__name__)
 
-USERS: list[UserData] = [
-    {
-        "id": 1,
-        "name": "Морозов Дмитрий",
-        "email": "dem@gmail.com",
-    },
-    {
-        "id": 2,
-        "name": "Анна Петрова",
-        "email": "anna@petrova.com",
-    },
-]
-
 
 @app.get("/")
 def home() -> str:
