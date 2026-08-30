@@ -3,6 +3,7 @@
 from pathlib import Path
 
 from flask import Flask, Response, jsonify, request
+from flask_cors import CORS
 
 from .database import Database
 from .user_repository import EmailAlreadyExistsError, UserRepository
@@ -17,6 +18,18 @@ database.initialize(SCHEMA_PATH)
 user_repository = UserRepository(database)
 
 app = Flask(__name__)
+
+CORS(
+    app,
+    resources={
+        r"/users(?:/.*)?$": {
+            "origins": [
+                "http://127.0.0.1:5173",
+                "http://localhost:5173",
+            ]
+        }
+    },
+)
 
 
 @app.get("/")
