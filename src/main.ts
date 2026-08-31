@@ -1,25 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import './styles.css'
-
-// Контракт между Flask UserData и TypeScript User
-interface User {
-  id: number
-  name: string
-  email: string
-}
-
-const USERS_API_URL = 'http://localhost:5000/users'
-
-async function fetchUsers(): Promise<User[]> {
-  const response = await fetch(USERS_API_URL)
-
-  if (!response.ok) {
-    throw new Error(`Не удалось загрузить пользователей: ${response.status}`)
-  }
-
-  return (await response.json()) as User[]
-}
+import { fetchUserById, fetchUsers } from './api/users-api'
+import { UsersTable } from './ui/users-table'
 
 const appElement = document.querySelector<HTMLDivElement>('#app')
 
@@ -58,75 +41,27 @@ if (!tableBody) {
   throw new Error('Не найдено тело таблицы пользователей')
 }
 
-const renderTableMessage = (
-  message: string,
-  textClass = 'text-body-secondary',
-): void => {
-  const row = document.createElement('tr')
-  const cell = document.createElement('td')
+// композиция, ближе даже к агрегации (отношение "содержит")
+const usersTable = new UsersTable(tableBody)
 
-  cell.colSpan = 3
-  cell.classList.add('py-4', 'text-center', textClass)
-  cell.textContent = message
-
-  row.append(cell)
-  tableBody.replaceChildren(row)
-}
-
-const renderUsers = (users: User[]): void => {
-  // Очищает старые строки перед обновлением списка
-  tableBody.replaceChildren()
-
-  if (users.length === 0) {
-    renderTableMessage('Пользователей пока нет. Добавьте первого пользователя.')
-    return
-  }
-
-  for (const user of users) {
-    const row = document.createElement('tr')
-    row.dataset.userId = String(user.id)
-
-    const values = [String(user.id), user.name, user.email]
-    for (const value of values) {
-      const cell = document.createElement('td')
-      cell.textContent = value
-      row.append(cell)
-    }
-
-    tableBody.append(row)
-  }
-}
-
-tableBody.addEventListener('click', (event) => {
-  const target = event.target
-
-  if (!(target instanceof Element)) {
-    return
-  }
-
-  const row = target.closest<HTMLTableRowElement>('tr[data-user-id]')
-
-  if (!row || !tableBody.contains(row)) {
-    return
-  }
-
-  const userId = Number(row.dataset.userId)
-
-  if (!Number.isInteger(userId)) {
-    return
-  }
-
-  console.log('Выбран пользователь:', userId)
+usersTable.onUserSelect((userId) => {
+  void fetchUserById(userId)
+    .then((selectedUser) => {
+      console.log('Получен пользователь:', selectedUser)
+    })
+    .catch((error) => {
+      console.error('Ошибка получения пользователя:', error)
+    })
 })
 
 const loadUsers = async (): Promise<void> => {
-  renderTableMessage('Загрузка пользователей...')
+  usersTable.renderMessage('Загрузка пользователей...')
 
   try {
     const users = await fetchUsers()
-    renderUsers(users)
+    usersTable.renderUsers(users)
   } catch {
-    renderTableMessage(
+    usersTable.renderMessage(
       'Не удалось загрузить пользователей. Проверьте, запущен ли сервер.',
       'text-danger',
     )
