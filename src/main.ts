@@ -97,6 +97,28 @@ const renderUsers = (users: User[]): void => {
   }
 }
 
+tableBody.addEventListener('click', (event) => {
+  const target = event.target
+
+  if (!(target instanceof Element)) {
+    return
+  }
+
+  const row = target.closest<HTMLTableRowElement>('tr[data-user-id]')
+
+  if (!row || !tableBody.contains(row)) {
+    return
+  }
+
+  const userId = Number(row.dataset.userId)
+
+  if (!Number.isInteger(userId)) {
+    return
+  }
+
+  console.log('Выбран пользователь:', userId)
+})
+
 const loadUsers = async (): Promise<void> => {
   renderTableMessage('Загрузка пользователей...')
 
