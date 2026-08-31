@@ -27,9 +27,6 @@ if (!appElement) {
   throw new Error("Не найден корневой элемент приложения с id 'app'")
 }
 
-const users = await fetchUsers()
-console.log('Загруженные пользователи:', users)
-
 appElement.innerHTML = `
   <main class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -45,7 +42,7 @@ appElement.innerHTML = `
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Имя</th>
-            <th scope="col">email</th>
+            <th scope="col">Email</th>
           </tr>
         </thead>
         <tbody id="users-table-body"></tbody>
@@ -61,10 +58,29 @@ if (!tableBody) {
   throw new Error('Не найдено тело таблицы пользователей')
 }
 
+const renderTableMessage = (
+  message: string,
+  textClass = 'text-body-secondary',
+): void => {
+  const row = document.createElement('tr')
+  const cell = document.createElement('td')
+
+  cell.colSpan = 3
+  cell.classList.add('py-4', 'text-center', textClass)
+  cell.textContent = message
+
+  row.append(cell)
+  tableBody.replaceChildren(row)
+}
+
 const renderUsers = (users: User[]): void => {
-  // Очищает новые строки перед обновлвением списка
+  // Очищает старые строки перед обновлением списка
   tableBody.replaceChildren()
-  console.log('привет')
+
+  if (users.length === 0) {
+    renderTableMessage('Пользователей пока нет. Добавьте первого пользователя.')
+    return
+  }
 
   for (const user of users) {
     const row = document.createElement('tr')
@@ -73,7 +89,6 @@ const renderUsers = (users: User[]): void => {
     const values = [String(user.id), user.name, user.email]
     for (const value of values) {
       const cell = document.createElement('td')
-      console.log(cell)
       cell.textContent = value
       row.append(cell)
     }
@@ -82,4 +97,18 @@ const renderUsers = (users: User[]): void => {
   }
 }
 
-renderUsers(users)
+const loadUsers = async (): Promise<void> => {
+  renderTableMessage('Загрузка пользователей...')
+
+  try {
+    const users = await fetchUsers()
+    renderUsers(users)
+  } catch {
+    renderTableMessage(
+      'Не удалось загрузить пользователей. Проверьте, запущен ли сервер.',
+      'text-danger',
+    )
+  }
+}
+
+await loadUsers()
