@@ -126,7 +126,7 @@ def create_user() -> Response:
             {
                 "error": {
                     "code": "email_already_exists",
-                    "message": f"Пользователь с email {email} уже существует",
+                    "message": f"Пользователь с email '{email}' уже существует",
                 }
             }
         )

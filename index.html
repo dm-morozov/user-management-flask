@@ -5,11 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg">
+    <link rel="stylesheet" href="/src/styles.css">
     <title>User Manager App</title>
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <main class="container py-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h2 mb-0">Пользователи</h1>
+
+                <button id="add-user-button" class="btn btn-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#create-user-modal">
+                    Добавить пользователя
+                </button>
+            </div>
+            <div id="message-container" role="status" aria-live="polite" aria-atomic="true"></div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body"></tbody>
+                </table>
+            </div>
+        </main>
+
+        <div id="user-details-modal" class="modal fade" tabindex="-1" aria-labelledby="user-details-modal-title"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="user-details-modal-title" class="modal-title fs-5">
+                            Информация о пользователе
+                        </h2>
+
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p><strong>ID:</strong> <span id="user-details-id"></span></p>
+                        <p><strong>Имя:</strong> <span id="user-details-name"></span></p>
+                        <p><strong>Email:</strong> <span id="user-details-email"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="create-user-modal" class="modal fade" tabindex="-1" aria-labelledby="create-user-modal-title"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="create-user-form">
+                        <div class="modal-header">
+                            <h2 id="create-user-modal-title" class="modal-title fs-5">
+                                Новый пользователь
+                            </h2>
+
+                            <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                aria-label="Закрыть"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="create-user-name">Имя</label>
+                                <input id="create-user-name" class="form-control" name="name" type="text" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="create-user-email">Email</label>
+                                <input id="create-user-email" class="form-control" name="email" type="email" required>
+                            </div>
+
+                            <div id="create-user-message" role="alert" aria-live="polite"></div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
+                                Отмена
+                            </button>
+
+                            <button class="btn btn-primary" type="submit">
+                                Добавить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="/src/main.ts"></script>
 </body>
