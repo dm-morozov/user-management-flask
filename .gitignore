@@ -23,6 +23,8 @@ instance/*.sqlite3
 .env
 .env.*
 !.env.example
+!.env.development
+!.env.production
 
 # Tests and coverage
 .pytest_cache/

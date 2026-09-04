@@ -1,7 +1,7 @@
 import type { ApiErrorResponse } from '../types/api'
 import type { CreateUserData, User } from '../types/user'
 
-const USERS_API_URL = 'http://localhost:5000/users'
+const USERS_API_URL = `${import.meta.env.VITE_API_URL}/users`
 
 export async function fetchUsers(): Promise<User[]> {
   const response = await fetch(USERS_API_URL)
