@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Management API</title>
+</head>
+
+<body>
+    <main>
+        <h1>User Management API</h1>
+
+        <p>API для получения и создания пользователей.</p>
+
+        <h2>Эндпоинты</h2>
+
+        <ul>
+            <li>
+                <code>GET /users</code> — получить список пользователей
+            </li>
+
+            <li>
+                <code>GET /users/&lt;id&gt;</code> — получить пользователя по ID
+            </li>
+
+            <li>
+                <code>POST /users</code> — создать нового пользователя
+            </li>
+        </ul>
+
+        <h2>Тело POST-запроса</h2>
+
+        <pre>
+            <code>
+                {
+                    "name": "Анна",
+                    "email": "anna@example.com"
+                }
+            </code>
+        </pre>
+
+        <h2>Коды ответа</h2>
+
+        <ul>
+            <li><code>200</code> — запрос выполнен</li>
+            <li><code>201</code> — пользователь создан</li>
+            <li><code>400</code> — некорректные данные</li>
+            <li><code>404</code> — пользователь не найден</li>
+            <li><code>409</code> — email уже существует</li>
+        </ul>
+
+        <p>
+            <a href="/users">Открыть список пользователей</a>
+        </p>
+    </main>
+</body>
+
+</html>

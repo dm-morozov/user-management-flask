@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from flask import Flask, Response, jsonify, request
+from flask import Flask, Response, jsonify, render_template, request
 from flask_cors import CORS
 
 from .database import Database
@@ -34,7 +34,7 @@ CORS(
 
 @app.get("/")
 def home() -> str:
-    return "User management App"
+    return render_template("api-index.html")
 
 
 @app.get("/users")
