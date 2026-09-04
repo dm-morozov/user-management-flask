@@ -5,6 +5,14 @@
 
 Backend на Flask хранит пользователей в SQLite. Frontend использует Fetch API для работы с сервером и обновляет интерфейс без перезагрузки страницы.
 
+## Демо
+
+- [Frontend на GitHub Pages](https://dm-morozov.github.io/user-management-flask/)
+- [Документация опубликованного API](https://dem2014.pythonanywhere.com/)
+- [Список пользователей в JSON](https://dem2014.pythonanywhere.com/users)
+
+Backend размещён на PythonAnywhere, frontend автоматически собирается и публикуется в GitHub Pages через GitHub Actions.
+
 ## Возможности
 
 - Просмотр списка пользователей в таблице и подробной информации в модальном окне.
@@ -24,12 +32,13 @@ Backend на Flask хранит пользователей в SQLite. Frontend �
 | Frontend | HTML, CSS, TypeScript, Fetch API |
 | Интерфейс | Bootstrap 5 |
 | Инструменты | Vite, Yarn Classic, ESLint, TypeScript Compiler |
+| Развёртывание | GitHub Actions, GitHub Pages, PythonAnywhere |
 
 Frontend написан без React и других UI-фреймворков: работа с DOM и событиями выполняется напрямую. TypeScript используется для типизации и при сборке преобразуется в JavaScript.
 
 ## Требования
 
-- Python 3.14 — версия, использованная при разработке.
+- Python 3.14 — версия, использованная при локальной разработке; опубликованный backend работает на Python 3.13.
 - Node.js 24.x — совместим с текущими зависимостями проекта.
 - Yarn Classic 1.22.22.
 - Git.
@@ -127,7 +136,8 @@ Backend должен продолжать работать в первом те�
 
 ## API
 
-Базовый адрес при локальном запуске: `http://127.0.0.1:5000`.
+- Локальный адрес: `http://127.0.0.1:5000`.
+- Опубликованный адрес: `https://dem2014.pythonanywhere.com`.
 
 | Метод | Endpoint | Результат |
 | --- | --- | --- |
@@ -178,7 +188,10 @@ backend/
   user_repository.py        # SQL-запросы к таблице пользователей
   models.py                 # Тип данных пользователя
   schema.sql                # Схема базы данных
+  templates/api-index.html  # Главная страница с документацией API
   requirements.txt          # Python-зависимости
+.github/workflows/
+  web.yaml                  # Проверка, сборка и публикация frontend
 src/
   api/users-api.ts          # HTTP-запросы через Fetch API
   types/                   # Типы пользователей и ошибок API
@@ -189,6 +202,8 @@ public/                    # Статические ресурсы
 docs/screenshots/          # Скриншоты приложения
 index.html                 # Статическая разметка страницы
 vite.config.ts             # Настройки сервера разработки и сборки
+.env.development           # Адрес локального API для Vite
+.env.production            # Адрес опубликованного API для Vite
 ```
 
 ## Проверки и сборка
@@ -217,10 +232,12 @@ yarn build
 - Пустые поля и некорректный формат email блокируются браузером.
 - Закрытие модальных окон работает по крестику и клавише Escape.
 
-## Особенности текущей конфигурации
+## Развёртывание и конфигурация
 
-- Адрес API задан в `src/api/users-api.ts`: `http://localhost:5000/users`.
-- CORS на backend разрешает frontend с адресов `http://127.0.0.1:5173` и `http://localhost:5173`. Если Vite выбрал другой порт, освободите `5173` или согласуйте настройки frontend и CORS.
-- Для production-сборки в `vite.config.ts` задан базовый путь `/user-management-flask/`. Это настройка путей к ресурсам, а не подтверждение развёртывания приложения.
-- Для публикации потребуется настроить адрес backend и разрешённые CORS-origin. Локальный Flask-сервер с `--debug` не предназначен для production.
+- Vite получает адрес backend из `VITE_API_URL`: локальное значение хранится в `.env.development`, опубликованное — в `.env.production`.
+- CORS разрешает обращения локального frontend и опубликованного сайта `https://dm-morozov.github.io`.
+- Базовый путь production-сборки `/user-management-flask/` соответствует адресу проекта в GitHub Pages.
+- GitHub Actions после каждого push в `main` устанавливает зависимости, проверяет TypeScript и ESLint, собирает frontend и публикует каталог `dist`.
+- Backend работает на PythonAnywhere. Его SQLite-база создаётся и хранится отдельно от репозитория на сервере.
+- Локальный Flask-сервер с `--debug` предназначен только для разработки.
 - Приложение реализует просмотр и создание пользователей. Редактирование, удаление и авторизация не входят в текущую реализацию.
