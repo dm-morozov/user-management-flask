@@ -1,3 +1,9 @@
+[![Frontend CI/CD](https://github.com/dm-morozov/user-management-flask/actions/workflows/web.yaml/badge.svg?branch=main)](https://github.com/dm-morozov/user-management-flask/actions/workflows/web.yaml)
+[![Live Demo](https://img.shields.io/badge/Live_demo-GitHub_Pages-2ea44f?logo=github)](https://dm-morozov.github.io/user-management-flask/)
+[![API](https://img.shields.io/badge/API-PythonAnywhere-3776AB?logo=python&logoColor=white)](https://dem2014.pythonanywhere.com/)
+![Python](https://img.shields.io/badge/Python-3.13%2B-3776AB?logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)
 
 # User Management Flask
 
@@ -25,14 +31,14 @@ Backend размещён на PythonAnywhere, frontend автоматическ�
 
 ## Стек
 
-| Часть проекта | Технологии |
-| --- | --- |
-| Backend | Python, Flask, Flask-CORS |
-| База данных | SQLite, стандартный модуль `sqlite3` без ORM |
-| Frontend | HTML, CSS, TypeScript, Fetch API |
-| Интерфейс | Bootstrap 5 |
-| Инструменты | Vite, Yarn Classic, ESLint, TypeScript Compiler |
-| Развёртывание | GitHub Actions, GitHub Pages, PythonAnywhere |
+| Часть проекта | Технологии                                      |
+| ------------- | ----------------------------------------------- |
+| Backend       | Python, Flask, Flask-CORS                       |
+| База данных   | SQLite, стандартный модуль `sqlite3` без ORM    |
+| Frontend      | HTML, CSS, TypeScript, Fetch API                |
+| Интерфейс     | Bootstrap 5                                     |
+| Инструменты   | Vite, Yarn Classic, ESLint, TypeScript Compiler |
+| Развёртывание | GitHub Actions, GitHub Pages, PythonAnywhere    |
 
 Frontend написан без React и других UI-фреймворков: работа с DOM и событиями выполняется напрямую. TypeScript используется для типизации и при сборке преобразуется в JavaScript.
 
@@ -139,11 +145,11 @@ Backend должен продолжать работать в первом те�
 - Локальный адрес: `http://127.0.0.1:5000`.
 - Опубликованный адрес: `https://dem2014.pythonanywhere.com`.
 
-| Метод | Endpoint | Результат |
-| --- | --- | --- |
-| `GET` | `/users` | `200`: массив пользователей; для пустой базы — `[]` |
-| `GET` | `/users/<id>` | `200`: пользователь; `404`: пользователь не найден |
-| `POST` | `/users` | `201`: созданный пользователь; `400`: некорректные данные; `409`: email уже существует |
+| Метод  | Endpoint      | Результат                                                                              |
+| ------ | ------------- | -------------------------------------------------------------------------------------- |
+| `GET`  | `/users`      | `200`: массив пользователей; для пустой базы — `[]`                                    |
+| `GET`  | `/users/<id>` | `200`: пользователь; `404`: пользователь не найден                                     |
+| `POST` | `/users`      | `201`: созданный пользователь; `400`: некорректные данные; `409`: email уже существует |
 
 Пример тела запроса `POST /users` с заголовком `Content-Type: application/json`:
 
